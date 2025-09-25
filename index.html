@@ -14,6 +14,7 @@
             --text-secondary: #8892b0;
             --font-main: 'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system, system-ui, sans-serif;
             --font-mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+            --mobile-nav-height: 60px;
         }
         
         * {
@@ -24,6 +25,7 @@
         
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 80px;
         }
         
         body {
@@ -32,6 +34,7 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            padding-bottom: var(--mobile-nav-height);
         }
         
         /* Header & Navigation */
@@ -60,6 +63,7 @@
             color: var(--accent);
             text-decoration: none;
             font-family: var(--font-mono);
+            z-index: 1001;
         }
         
         nav ul {
@@ -109,6 +113,46 @@
             display: none;
             font-size: 1.5rem;
             cursor: pointer;
+            z-index: 1001;
+            color: var(--accent);
+        }
+        
+        /* Mobile Bottom Navigation */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--secondary);
+            display: none;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0.5rem 0;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            height: var(--mobile-nav-height);
+        }
+        
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+        
+        .mobile-nav-item.active {
+            color: var(--accent);
+            background-color: rgba(100, 255, 218, 0.1);
+        }
+        
+        .mobile-nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.2rem;
         }
         
         /* Hero Section */
@@ -438,8 +482,13 @@
             transform: translateY(0);
         }
         
-        /* Responsive Design */
+        /* Mobile-Specific Enhancements */
         @media (max-width: 768px) {
+            /* Header adjustments */
+            header {
+                padding: 1rem 5%;
+            }
+            
             .mobile-menu {
                 display: block;
             }
@@ -448,7 +497,7 @@
                 position: fixed;
                 top: 0;
                 right: -100%;
-                width: 70%;
+                width: 80%;
                 height: 100vh;
                 background-color: var(--secondary);
                 flex-direction: column;
@@ -456,6 +505,7 @@
                 justify-content: center;
                 transition: right 0.5s ease;
                 z-index: 999;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
             }
             
             nav ul.active {
@@ -466,16 +516,96 @@
                 margin: 1.5rem 0;
             }
             
+            nav a {
+                font-size: 1.2rem;
+                padding: 0.8rem 1.5rem;
+            }
+            
+            /* Mobile bottom navigation */
+            .mobile-bottom-nav {
+                display: flex;
+            }
+            
+            /* Section adjustments */
+            section {
+                padding: 4rem 5%;
+            }
+            
+            .section-title {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 2rem;
+            }
+            
+            .section-title .line {
+                width: 100%;
+                max-width: 100%;
+                margin-top: 1rem;
+            }
+            
+            /* About section */
             .about-content {
                 grid-template-columns: 1fr;
+                gap: 2rem;
             }
             
             .profile-image {
                 margin: 0 auto;
+                order: -1;
             }
             
             .skills-list {
                 grid-template-columns: 1fr;
+            }
+            
+            /* Projects section */
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .project-card {
+                margin-bottom: 1rem;
+            }
+            
+            /* Hero section */
+            .hero {
+                padding-top: 2rem;
+                min-height: 90vh;
+            }
+            
+            .hero-content {
+                text-align: center;
+            }
+            
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            /* Contact section */
+            .contact-content {
+                padding: 0 1rem;
+            }
+            
+            /* Touch-friendly button sizing */
+            .cta-button, .contact-button {
+                padding: 1.2rem 2rem;
+                font-size: 1rem;
+            }
+            
+            /* Improved touch targets */
+            .project-links a, .social-links a {
+                padding: 0.5rem;
+            }
+            
+            /* Adjust font sizes for readability */
+            body {
+                font-size: 16px;
+            }
+            
+            h1, h2, h3 {
+                line-height: 1.3;
             }
         }
         
@@ -495,6 +625,56 @@
             border-radius: 50%;
             opacity: 0.1;
         }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 998;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Swipe indicator for mobile */
+        .swipe-indicator {
+            position: fixed;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            display: none;
+            z-index: 997;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
     </style>
 </head>
 <body>
@@ -512,6 +692,32 @@
             </ul>
         </nav>
     </header>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="mobile-bottom-nav">
+        <a href="#about" class="mobile-nav-item" data-section="about">
+            <i class="fas fa-user mobile-nav-icon"></i>
+            <span>About</span>
+        </a>
+        <a href="#projects" class="mobile-nav-item" data-section="projects">
+            <i class="fas fa-code mobile-nav-icon"></i>
+            <span>Projects</span>
+        </a>
+        <a href="#contact" class="mobile-nav-item" data-section="contact">
+            <i class="fas fa-envelope mobile-nav-icon"></i>
+            <span>Contact</span>
+        </a>
+    </div>
+
+    <!-- Back to top button -->
+    <div class="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Swipe indicator -->
+    <div class="swipe-indicator">
+        <i class="fas fa-arrow-up"></i> Swipe up to explore
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -675,6 +881,17 @@
             } else {
                 header.classList.remove('scrolled');
             }
+            
+            // Show/hide back to top button
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+            
+            // Update active section in mobile nav
+            updateActiveSection();
         });
 
         // Mobile menu toggle
@@ -683,6 +900,15 @@
         
         mobileMenu.addEventListener('click', function() {
             navMenu.classList.toggle('active');
+            // Toggle menu icon
+            const icon = mobileMenu.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
         });
 
         // Close mobile menu when clicking on a link
@@ -690,6 +916,9 @@
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
                 navMenu.classList.remove('active');
+                const icon = mobileMenu.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
             });
         });
 
@@ -751,6 +980,81 @@
             }
         `;
         document.head.appendChild(style);
+
+        // Back to top functionality
+        const backToTop = document.querySelector('.back-to-top');
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Mobile bottom navigation active state
+        function updateActiveSection() {
+            const sections = document.querySelectorAll('section');
+            const navItems = document.querySelectorAll('.mobile-nav-item');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - 200)) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-section') === currentSection) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // Swipe indicator for mobile
+        if (window.innerWidth <= 768) {
+            const swipeIndicator = document.querySelector('.swipe-indicator');
+            swipeIndicator.style.display = 'block';
+            
+            // Hide indicator after 5 seconds
+            setTimeout(() => {
+                swipeIndicator.style.display = 'none';
+            }, 5000);
+        }
+
+        // Touch-friendly project card interactions
+        const projectCards = document.querySelectorAll('.project-card');
+        projectCards.forEach(card => {
+            card.addEventListener('touchstart', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('touchend', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Improved mobile menu closing on outside tap
+        document.addEventListener('click', function(event) {
+            const isClickInsideNav = navMenu.contains(event.target);
+            const isClickOnMenuIcon = mobileMenu.contains(event.target);
+            
+            if (!isClickInsideNav && !isClickOnMenuIcon && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                const icon = mobileMenu.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Prevent scrolling when mobile menu is open
+        navMenu.addEventListener('touchmove', function(e) {
+            if (this.classList.contains('active')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
     </script>
 </body>
 </html>
